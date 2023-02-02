@@ -9,6 +9,12 @@ export default {
     TodoItem,
     ToDoForm
   },
+  methods: {
+    addToDo(label) {
+      console.log("to-do added:", label)
+      this.TodoItems.push({id: uniqueId("todo-"), label: label, done: false})
+    }
+  },
   data() {
     return {
       TodoItems: [
@@ -29,13 +35,10 @@ export default {
     <h1>To-Do List</h1>
     <ul>
       <li>
-        <ToDoForm></ToDoForm>
+        <ToDoForm @todo-added="addToDo"></ToDoForm>
       </li>
       <li v-for="item in TodoItems" :key="item.id">
         <TodoItem :label="item.label" :id="item.id" :done="item.done"></TodoItem>
-      </li>
-      <li v-for="item in TodoItems" :key="item.id">
-        <todo-item :label="item.label" :id="item.id" :done="item.done"></todo-item>
       </li>
     </ul>
   </div>
