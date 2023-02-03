@@ -1,13 +1,13 @@
 <script>
 import uniqueId from "lodash.uniqueid";
 import TodoItem from './components/ToDoItem.vue'
-import ToDoForm from "./components/ToDoForm.vue";
+import ToDoForm from "./components/ToDoForm.vue"
 
 export default {
   name: 'app',
   components: {
     TodoItem,
-    ToDoForm
+    ToDoForm,
   },
   methods: {
     addToDo(label) {
@@ -56,6 +56,7 @@ export default {
       </li>
     </ul>
   </div>
+
 </template>
 <style>
 /* 全局样式 */

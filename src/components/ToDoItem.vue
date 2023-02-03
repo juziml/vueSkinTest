@@ -1,26 +1,47 @@
 <template>
-  <div class="custom-checkbox">
-    <!--    v-bind: 可缩写为 :-->
-    <input type="checkbox" :id="id" :checked="isDone" @change="$emit('checkbox-changed')"/>
-    <label :for="id" class="custom-checkbox">{{ label }}</label>
-
+  <div class="stack-small" v-if="!isEditing">
+    <div class="custom-checkbox">
+      <!--    v-bind: 可缩写为 :-->
+      <input type="checkbox" :id="id" :checked="isDone" @change="$emit('checkbox-changed')"/>
+      <label :for="id" class="custom-checkbox">{{ label }}</label>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn" @click="toggleToItemEditForm">
+        Edit <span class="visually-hidden">{{ label }}</span>
+      </button>
+      <button type="button" class="btn btn__danger" @click="deleteToDo">
+        Delete <span class="visually-hidden">{{ label }}</span>
+      </button>
+    </div>
   </div>
-
+  <ToDoItemEdit v-else :id="id" :label="label"></ToDoItemEdit>
 </template>
 
 <script>
-import uniqueId from 'lodash.uniqueid'
+import ToDoItemEdit from './ToDoItemEdit.vue';
 
 export default {
+  components: {
+    ToDoItemEdit
+  },
   name: "ToDoItem",
   props: {
     id: {required: true, type: String},
     label: {required: true, type: String},
     done: {default: false, type: Boolean}
   },
+  methods: {
+    deleteToDo() {
+      this.$emit('item-deleted');
+    },
+    toggleToItemEditForm() {
+      this.isEditing = true;
+    }
+  },
   data() {
     return {
       isDone: this.done,
+      isEditing: false
     };
   }
 }
