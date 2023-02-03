@@ -3,7 +3,7 @@
 
     <div>
       <label class="edit-label">Edit Name for &quot:{{ label }}&quot</label>
-      <input :id="id" type="text" autocomplete="off" v-model.lazy.trim="newLevel"/>
+      <input :id="id" type="text" autocomplete="off" v-model.lazy.trim="newLabel"/>
     </div>
 
     <div class="btn-group">
@@ -35,12 +35,13 @@ export default {
   methods: {
     onSubmit() {
       if (this.newLabel && this.newLabel !== this.label) {
-        this.$emit("item-edited", this.label)
+        this.$emit("item-edited", this.id, this.newLabel)
       }
     },
     onCancel() {
-      this.$emit("edit-canceled")
-    }
+      this.$emit("edit-cancelled")
+    },
+
   }
 }
 </script>

@@ -17,6 +17,10 @@ export default {
     updateDoneStatus(id) {
       const toDoToUpdate = this.TodoItems.find((item) => item.id === id)
       toDoToUpdate.done = !toDoToUpdate.done
+    },
+    setNewLabel(id, newLabel) {
+      const toDoToUpdate = this.TodoItems.find((item) => item.id === id)
+      toDoToUpdate.label = newLabel
     }
   },
   // computed 属性将在 内部引用的发生变化时才会重新运行
@@ -24,7 +28,8 @@ export default {
     listSummary() {
       const numberFinishedItems = this.TodoItems.filter((item) => item.done).length
       return `${numberFinishedItems} out of ${this.TodoItems.length} items completed`
-    }
+    },
+
   },
   data() {
     return {
@@ -52,7 +57,7 @@ export default {
       </li>
       <li v-for="item in TodoItems" :key="item.id">
         <TodoItem :label="item.label" :id="item.id" :done="item.done"
-                  @checkbox-changed="updateDoneStatus(item.id)"></TodoItem>
+                  @checkbox-changed="updateDoneStatus(item.id)" @item-edited="setNewLabel"></TodoItem>
       </li>
     </ul>
   </div>
