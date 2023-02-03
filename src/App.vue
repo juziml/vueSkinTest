@@ -13,6 +13,17 @@ export default {
     addToDo(label) {
       console.log("to-do added:", label)
       this.TodoItems.push({id: uniqueId("todo-"), label: label, done: false})
+    },
+    updateDoneStatus(id) {
+      const toDoToUpdate = this.TodoItems.find((item) => item.id === id)
+      toDoToUpdate.done = !toDoToUpdate.done
+    }
+  },
+  // computed 属性将在 内部引用的发生变化时才会重新运行
+  computed: {
+    listSummary() {
+      const numberFinishedItems = this.TodoItems.filter((item) => item.done).length
+      return `${numberFinishedItems} out of ${this.TodoItems.length} items completed`
     }
   },
   data() {
@@ -20,7 +31,6 @@ export default {
       TodoItems: [
         {id: uniqueId('todo-'), label: 'Learn Vue1', done: false},
         {id: uniqueId('todo-'), label: 'Learn Vue2', done: true},
-        {id: uniqueId('todo-'), label: 'Learn Vue3', done: true},
         {id: uniqueId('todo-'), label: 'Learn Vue4', done: false},
       ]
     }
@@ -33,12 +43,16 @@ export default {
 <template>
   <div id="app">
     <h1>To-Do List</h1>
-    <ul>
+
+    <h2 id="list-summary">{{ listSummary }}</h2>
+
+    <ul aria-labelledby="list-summary" class="stack-large">
       <li>
         <ToDoForm @todo-added="addToDo"></ToDoForm>
       </li>
       <li v-for="item in TodoItems" :key="item.id">
-        <TodoItem :label="item.label" :id="item.id" :done="item.done"></TodoItem>
+        <TodoItem :label="item.label" :id="item.id" :done="item.done"
+                  @checkbox-changed="updateDoneStatus(item.id)"></TodoItem>
       </li>
     </ul>
   </div>
