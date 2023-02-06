@@ -43,9 +43,13 @@ export default {
       this.isEditing = false
     }
   },
+  computed: {
+    isDone() {
+      return this.done
+    }
+  },
   data() {
     return {
-      isDone: this.done,
       isEditing: false
     };
   }
