@@ -21,6 +21,12 @@ export default {
     setNewLabel(id, newLabel) {
       const toDoToUpdate = this.TodoItems.find((item) => item.id === id)
       toDoToUpdate.label = newLabel
+    },
+    onDeleted(id) {
+      console.log("delete-id:", id)
+      const item = this.TodoItems.find((item) => item.id === id)
+      let index = this.TodoItems.indexOf(item)
+      this.TodoItems.splice(index, 1)
     }
   },
   // computed 属性将在 内部引用的发生变化时才会重新运行
@@ -57,7 +63,9 @@ export default {
       </li>
       <li v-for="item in TodoItems" :key="item.id">
         <TodoItem :label="item.label" :id="item.id" :done="item.done"
-                  @checkbox-changed="updateDoneStatus(item.id)" @item-edited="setNewLabel"></TodoItem>
+                  @checkbox-changed="updateDoneStatus(item.id)" @item-edited="setNewLabel"
+                  @item-deleted="onDeleted(item.id)"
+        ></TodoItem>
       </li>
     </ul>
   </div>
